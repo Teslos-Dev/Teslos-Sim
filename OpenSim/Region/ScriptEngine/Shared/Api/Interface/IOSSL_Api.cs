@@ -343,6 +343,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         LSL_Key osNpcSaveAppearance(key npc, LSL_String notecard, LSL_Integer includeHuds);
         void    osNpcLoadAppearance(key npc, string notecard);
         vector  osNpcGetPos(key npc);
+        void    osNpcGiveItem(key from, key to, key container, string item);
         void    osNpcMoveTo(key npc, vector position);
         void    osNpcMoveToTarget(key npc, vector target, int options);
 
@@ -364,6 +365,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         void osNpcSay(key npc, string message);
         void osNpcSay(key npc, int channel, string message);
         void osNpcSayTo(LSL_Key npc, LSL_Key target, int channel, string msg);
+        void osNpcSendIM(key from, key to, string message);
         void osNpcShout(key npc, int channel, string message);
         void osNpcSit(key npc, key target, int options);
         void osNpcStand(LSL_Key npc);

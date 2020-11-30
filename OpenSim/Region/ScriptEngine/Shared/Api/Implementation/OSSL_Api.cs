@@ -3047,6 +3047,24 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return new LSL_Key(x.ToString());
         }
 
+        public void osNpcGiveItem(LSL_Key from, LSL_Key to, LSL_Key container, string item)
+        {
+            CheckThreatLevel(ThreatLevel.High, "osNpcGiveItem");
+
+            INPCModule module = World.RequestModuleInterface<INPCModule>();
+            if (module != null)
+            {
+                UUID fromId = new UUID(from.m_string);
+                UUID toId = new UUID(to.m_string);
+                UUID containerID = new UUID(container.m_string);
+
+                if (!module.CheckPermissions(fromId, m_host.OwnerID))
+                    return;
+
+                module.GiveItem(fromId, toId, containerID, item, World);
+            }
+        }
+
         /// <summary>
         /// Save the current appearance of the NPC permanently to the named notecard.
         /// </summary>
@@ -3348,6 +3366,23 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             IWorldComm wComm = m_ScriptEngine.World.RequestModuleInterface<IWorldComm>();
             if (wComm != null)
                 wComm.DeliverMessageTo(TargetID, channel, npcPOS, npcNAME, npcId, msg);
+        }
+
+        public void osNpcSendIM(LSL_Key from, LSL_Key to, string message)
+        {
+            CheckThreatLevel(ThreatLevel.High, "osNpcSendIM");
+
+            INPCModule module = World.RequestModuleInterface<INPCModule>();
+            if (module != null)
+            {
+                UUID fromId = new UUID(from.m_string);
+                UUID toId = new UUID(to.m_string);
+
+                if (!module.CheckPermissions(fromId, m_host.OwnerID))
+                    return;
+
+                module.SendIM(fromId, toId, World, message);
+            }
         }
 
         public void osNpcShout(LSL_Key npc, int channel, string message)
